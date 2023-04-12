@@ -10,8 +10,10 @@ class Node {
 
 class Tree {
   constructor(array) {
+    const treeSet = new Set([...array]);
+    const uniqueArray = [...treeSet];
     // must use this to call the method
-    this.root = this.buildTree(array);
+    this.root = this.buildTree(mergeSort(uniqueArray));
   }
 
   buildTree(array, start = 0, end = array.length - 1) {
@@ -44,6 +46,26 @@ class Tree {
     return preorderArray;
     */
   }
+
+  inOrder(arr = [], root = this.root) {
+    if (root === null) return;
+
+    this.inOrder(arr, root.left);
+    arr.push(root.data);
+    this.inOrder(arr, root.right);
+
+    return arr;
+  }
+
+  postOrder(root = this.root) {
+    if (root === null) return [];
+
+    return [
+      ...this.postOrder(root.left),
+      ...this.postOrder(root.right),
+      root.data,
+    ];
+  }
 }
 
 export { Node, Tree };
@@ -61,6 +83,10 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
   }
 };
 
-const a1 = [1, 2, 3, 4];
+const a1 = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+// const a1 = [1, 2, 3, 4];
 const bst = new Tree(a1);
 prettyPrint(bst.root);
+console.log(bst.preOrder());
+console.log(bst.inOrder());
+console.log(bst.postOrder());
