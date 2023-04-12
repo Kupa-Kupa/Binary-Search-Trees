@@ -1,4 +1,4 @@
-import { Tree, Node } from './binary-search-tree';
+import { Tree, Node } from './binary-search-tree.js';
 
 describe('Binary Search Tree Tests', () => {
   test('generateBST returns sorted array:', () => {

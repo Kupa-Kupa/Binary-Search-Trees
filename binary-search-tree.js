@@ -1,4 +1,4 @@
-import { mergeSort } from './merge-sort';
+import { mergeSort } from './merge-sort.js';
 
 class Node {
   constructor(value) {
@@ -47,3 +47,20 @@ class Tree {
 }
 
 export { Node, Tree };
+
+const prettyPrint = (node, prefix = '', isLeft = true) => {
+  if (node === null) {
+    return;
+  }
+  if (node.right !== null) {
+    prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
+  }
+  console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
+  if (node.left !== null) {
+    prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
+  }
+};
+
+const a1 = [1, 2, 3, 4];
+const bst = new Tree(a1);
+prettyPrint(bst.root);
