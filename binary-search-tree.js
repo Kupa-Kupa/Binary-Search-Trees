@@ -10,6 +10,7 @@ class Node {
 
 class Tree {
   constructor(array) {
+    // create set from array and then create new unique array
     const treeSet = new Set([...array]);
     const uniqueArray = [...treeSet];
     // must use this to call the method
@@ -27,6 +28,121 @@ class Tree {
 
     return node;
   }
+
+  insert(value, root = this.root) {
+    if (root === null) {
+      root = new Node(value);
+      return;
+    }
+
+    if (value === root.data) {
+      console.log(`${value} already exists in the tree. Nothing inserted.`);
+      return;
+    } else if (value < root.data) {
+      if (root.left === null) {
+        root.left = new Node(value);
+        return;
+      } else {
+        this.insert(value, root.left);
+      }
+    } else {
+      if (root.right === null) {
+        root.right = new Node(value);
+        return;
+      } else {
+        this.insert(value, root.right);
+      }
+    }
+  }
+
+  // can't delete root node when left or right subtrees are null
+  // can't delete tree which is a single node
+  // not sure how this can be fixed?
+  delete(value, root = this.root) {
+    if (root === null) return root;
+
+    if (value < root.data) {
+      root.left = this.delete(value, root.left);
+    } else if (value > root.data) {
+      root.right = this.delete(value, root.right);
+    } else {
+      /*if (root.left === null && root.right === null) {
+        root = null;
+        return root;
+      } else*/ if (root.left === null) {
+        return root.right;
+      } else if (root.right === null) {
+        return root.left;
+      }
+
+      const minRightSubTree = (root) => {
+        let min = root.data;
+
+        while (root.left !== null) {
+          min = root.left.data;
+          root = root.left;
+        }
+
+        return min;
+      };
+
+      root.data = minRightSubTree(root.right);
+
+      root.right = this.delete(root.data, root.right);
+    }
+    return root;
+  }
+
+  /*
+  The below version doesn't remove the root node when the left or 
+  right subtree is null
+   */
+  /*
+  delete(value, root = this.root) {
+    if (root === null) return root;
+
+    if (value < root.data) {
+      root.left = this.delete(value, root.left);
+      return root;
+    } else if (value > root.data) {
+      root.right = this.delete(value, root.right);
+      return root;
+    } else {
+      // what about when removing root node there is no root.left?
+      // fails to remove node
+
+      if (root.left === null) {
+        let temp = root.right;
+        return temp;
+      } else if (root.right === null) {
+        let temp = root.left;
+        return temp;
+      } else {
+        let successorParent = root;
+        let successor = root.right;
+
+        while (successor.left !== null) {
+          successorParent = successor;
+          successor = successor.left;
+        }
+
+        if (successorParent !== root) {
+          successorParent.left = successor.right;
+        } else {
+          successorParent.right = successor.right;
+        }
+
+        root.data = successor.data;
+
+        return root;
+      }
+    }
+  }
+  */
+
+  find(root = this.root) {}
+
+  levelOrder(root = this.root) {}
 
   preOrder(root = this.root) {
     if (root === null) return [];
@@ -66,6 +182,14 @@ class Tree {
       root.data,
     ];
   }
+
+  height(root = this.root) {}
+
+  depth(root = this.root) {}
+
+  isBalanced(root = this.root) {}
+
+  rebalance(root = this.root) {}
 }
 
 export { Node, Tree };
@@ -83,10 +207,24 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
   }
 };
 
-const a1 = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
-// const a1 = [1, 2, 3, 4];
+// const a1 = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+// const a1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const a1 = [1];
 const bst = new Tree(a1);
+// prettyPrint(bst.root);
+// bst.insert(6);
+// prettyPrint(bst.root);
+// bst.insert(0);
+// prettyPrint(bst.root);
+// bst.insert(1);
 prettyPrint(bst.root);
-console.log(bst.preOrder());
-console.log(bst.inOrder());
-console.log(bst.postOrder());
+console.log(bst.delete(1));
+// console.log(bst.delete(2));
+// console.log(bst.delete(3));
+// console.log(bst.delete(4));
+// console.log(bst.delete(5));
+// console.log(bst.delete(8));
+prettyPrint(bst.root);
+// console.log(bst.preOrder());
+// console.log(bst.inOrder());
+// console.log(bst.postOrder());
