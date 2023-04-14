@@ -156,7 +156,33 @@ class Tree {
     }
   }
 
-  levelOrder(root = this.root) {}
+  levelOrder(fn = null, arr = [], root = this.root) {
+    if (root === null) return;
+
+    const queue = [];
+
+    queue.push(root);
+
+    while (queue.length !== 0) {
+      let current = queue.shift();
+
+      if (fn !== null) {
+        fn(current);
+      }
+
+      arr.push(current.data);
+
+      if (current.left !== null) {
+        queue.push(current.left);
+      }
+
+      if (current.right !== null) {
+        queue.push(current.right);
+      }
+    }
+
+    return arr;
+  }
 
   preOrder(root = this.root) {
     if (root === null) return [];
@@ -367,27 +393,36 @@ Rebalance Testing
 /*
 isBalanced Testing
 */
-const a1 = [2];
+// const a1 = [2];
+// const bst = new Tree(a1);
+// const a2 = [1, 2, 3, 4];
+// const bst2 = new Tree(a2);
+// prettyPrint(bst.root);
+// console.log(bst.isBalanced());
+
+// bst.insert(55);
+// bst.insert(60);
+// bst.insert(65);
+// bst.insert(5);
+// prettyPrint(bst.root);
+// console.log(bst.isBalanced());
+// bst.insert(0);
+// bst.insert(-1);
+// bst.insert(-2);
+// prettyPrint(bst.root);
+// console.log(bst.isBalanced());
+// bst.insert(1);
+// prettyPrint(bst.root);
+// console.log(bst.isBalanced());
+
+// prettyPrint(bst2.root);
+// console.log(bst2.isBalanced());
+
+/*
+levelOrder Testing
+*/
+const a1 = [1, 2, 3, 4];
+// const a1 = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const bst = new Tree(a1);
-const a2 = [1, 2, 3, 4];
-const bst2 = new Tree(a2);
 prettyPrint(bst.root);
-console.log(bst.isBalanced());
-
-bst.insert(55);
-bst.insert(60);
-bst.insert(65);
-bst.insert(5);
-prettyPrint(bst.root);
-console.log(bst.isBalanced());
-bst.insert(0);
-bst.insert(-1);
-bst.insert(-2);
-prettyPrint(bst.root);
-console.log(bst.isBalanced());
-bst.insert(1);
-prettyPrint(bst.root);
-console.log(bst.isBalanced());
-
-prettyPrint(bst2.root);
-console.log(bst2.isBalanced());
+console.log(bst.levelOrder((node) => console.log(node.data ** 2)));
