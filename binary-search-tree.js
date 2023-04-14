@@ -55,16 +55,19 @@ class Tree {
     }
   }
 
+  delete(value) {
+    this.root = this.deleteNode(value);
+  }
   // can't delete root node when left or right subtrees are null
   // can't delete tree which is a single node
   // not sure how this can be fixed?
-  delete(value, root = this.root) {
+  deleteNode(value, root = this.root) {
     if (root === null) return root;
 
     if (value < root.data) {
-      root.left = this.delete(value, root.left);
+      root.left = this.deleteNode(value, root.left);
     } else if (value > root.data) {
-      root.right = this.delete(value, root.right);
+      root.right = this.deleteNode(value, root.right);
     } else {
       /*if (root.left === null && root.right === null) {
         root = null;
@@ -88,7 +91,7 @@ class Tree {
 
       root.data = minRightSubTree(root.right);
 
-      root.right = this.delete(root.data, root.right);
+      root.right = this.deleteNode(root.data, root.right);
     }
     return root;
   }
@@ -140,7 +143,17 @@ class Tree {
   }
   */
 
-  find(root = this.root) {}
+  find(value, root = this.root) {
+    if (root === null) return root;
+
+    if (value < root.data) {
+      return this.find(value, root.left);
+    } else if (value > root.data) {
+      return this.find(value, root.right);
+    } else {
+      return root;
+    }
+  }
 
   levelOrder(root = this.root) {}
 
@@ -194,6 +207,9 @@ class Tree {
 
 export { Node, Tree };
 
+/*
+PrettyPrint function that console logs visual representation of Tree
+*/
 const prettyPrint = (node, prefix = '', isLeft = true) => {
   if (node === null) {
     return;
@@ -207,24 +223,62 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
   }
 };
 
+/*
+Quick Testing: node binary-search-tree.js
+*/
+
 // const a1 = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
-// const a1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const a1 = [1];
-const bst = new Tree(a1);
+// const a1 = [1, 2, 3, 4];
+// const a1 = [1];
+// const bst = new Tree(a1);
 // prettyPrint(bst.root);
 // bst.insert(6);
 // prettyPrint(bst.root);
 // bst.insert(0);
 // prettyPrint(bst.root);
 // bst.insert(1);
-prettyPrint(bst.root);
-console.log(bst.delete(1));
+// prettyPrint(bst.root);
+// console.log(bst.preOrder());
+// console.log(bst.inOrder());
+// console.log(bst.postOrder());
+
+/*
+Delete testing
+*/
+
+// const a1 = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+// const a1 = [1, 2, 3, 4];
+// const a1 = [1];
+// const bst = new Tree(a1);
+// prettyPrint(bst.root);
+
+// prettyPrint(bst.root);
+// console.log(bst.delete(1));
 // console.log(bst.delete(2));
+
+// console.log(bst.deleteNode(1));
+// console.log(bst.deleteNode(2));
 // console.log(bst.delete(3));
 // console.log(bst.delete(4));
 // console.log(bst.delete(5));
 // console.log(bst.delete(8));
+
+/*
+// https://github.com/tylphe/binary-search-trees was setting root on the
+// return value of Tree.delete(val) so tree was updating to remove the
+// root node when there was no left/right subtree, even if their code didnt 
+// change bst.root like mine doesn't here
+*/
+// prettyPrint(bst.delete(2));
+// prettyPrint(bst.root);
+
+/*
+Find testing
+*/
+
+const a1 = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+// const a1 = [1, 2, 3, 4];
+// const a1 = [1];
+const bst = new Tree(a1);
 prettyPrint(bst.root);
-// console.log(bst.preOrder());
-// console.log(bst.inOrder());
-// console.log(bst.postOrder());
+console.log(bst.find(33));
