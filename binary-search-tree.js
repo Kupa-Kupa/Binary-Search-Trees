@@ -144,6 +144,7 @@ class Tree {
   */
 
   find(value, root = this.root) {
+    if (!value) return null;
     if (root === null) return root;
 
     if (value < root.data) {
@@ -196,9 +197,33 @@ class Tree {
     ];
   }
 
-  height(root = this.root) {}
+  height(node = this.root) {
+    if (node === null) return -1;
 
-  depth(root = this.root) {}
+    let leftHeight = this.height(node.left);
+    let rightHeight = this.height(node.right);
+
+    return Math.max(leftHeight, rightHeight) + 1;
+  }
+
+  depth(node, root = this.root) {
+    if (!node) return null;
+    if (root === null || node === null) return 0;
+    if (node.data === root.data) return 0;
+    // console.log(node);
+    // console.log(root);
+
+    let leftDepth = 0;
+    let rightDepth = 0;
+
+    if (node.data < root.data) {
+      leftDepth = this.depth(node, root.left);
+    } else if (node.data > root.data) {
+      rightDepth = this.depth(node, root.right);
+    }
+
+    return Math.max(leftDepth, rightDepth) + 1;
+  }
 
   isBalanced(root = this.root) {}
 
@@ -276,9 +301,40 @@ Delete testing
 Find testing
 */
 
-const a1 = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+// const a1 = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 // const a1 = [1, 2, 3, 4];
 // const a1 = [1];
+// const bst = new Tree(a1);
+// prettyPrint(bst.root);
+// console.log(bst.find(33));
+
+/*
+Height testing
+*/
+
+// const a1 = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+// const a1 = [1, 2, 3, 4];
+// const a1 = [1];
+// const node1 = {
+//   data: 2,
+//   left: { data: 1, left: null, right: null },
+//   right: {
+//     data: 3,
+//     left: null,
+//     right: { data: 4, left: null, right: null },
+//   },
+// };
+// const bst = new Tree(a1);
+// prettyPrint(bst.root);
+// console.log(bst.height());
+// console.log(bst.height(node1));
+
+/*
+Depth testing
+*/
+
+const a1 = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+// const a1 = [1, 2, 3, 4];
 const bst = new Tree(a1);
 prettyPrint(bst.root);
-console.log(bst.find(33));
+console.log(bst.depth(bst.find(8)));
