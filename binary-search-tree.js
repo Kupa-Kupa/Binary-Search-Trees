@@ -225,9 +225,19 @@ class Tree {
     return Math.max(leftDepth, rightDepth) + 1;
   }
 
-  isBalanced(root = this.root) {}
+  isBalanced(root = this.root) {
+    if (root === null) return true;
+    if (Math.abs(this.height(root.left) - this.height(root.right)) > 1) {
+      return false;
+    } else {
+      return this.isBalanced(root.left) && this.isBalanced(root.right);
+    }
+  }
 
-  rebalance(root = this.root) {}
+  rebalance() {
+    this.root = this.buildTree(this.inOrder());
+    return this.root;
+  }
 }
 
 export { Node, Tree };
@@ -333,8 +343,51 @@ Height testing
 Depth testing
 */
 
-const a1 = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+// const a1 = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 // const a1 = [1, 2, 3, 4];
+// const bst = new Tree(a1);
+// prettyPrint(bst.root);
+// console.log(bst.depth(bst.find(8)));
+
+/*
+Rebalance Testing
+*/
+
+// const a1 = [1, 2, 3, 4];
+// const bst = new Tree(a1);
+// prettyPrint(bst.root);
+// bst.insert(55);
+// bst.insert(60);
+// bst.insert(16);
+// bst.insert(5);
+// prettyPrint(bst.root);
+// bst.rebalance();
+// prettyPrint(bst.root);
+
+/*
+isBalanced Testing
+*/
+const a1 = [2];
 const bst = new Tree(a1);
+const a2 = [1, 2, 3, 4];
+const bst2 = new Tree(a2);
 prettyPrint(bst.root);
-console.log(bst.depth(bst.find(8)));
+console.log(bst.isBalanced());
+
+bst.insert(55);
+bst.insert(60);
+bst.insert(65);
+bst.insert(5);
+prettyPrint(bst.root);
+console.log(bst.isBalanced());
+bst.insert(0);
+bst.insert(-1);
+bst.insert(-2);
+prettyPrint(bst.root);
+console.log(bst.isBalanced());
+bst.insert(1);
+prettyPrint(bst.root);
+console.log(bst.isBalanced());
+
+prettyPrint(bst2.root);
+console.log(bst2.isBalanced());
