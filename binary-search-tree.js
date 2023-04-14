@@ -421,8 +421,8 @@ isBalanced Testing
 /*
 levelOrder Testing
 */
-const a1 = [1, 2, 3, 4];
+// const a1 = [1, 2, 3, 4];
 // const a1 = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
-const bst = new Tree(a1);
-prettyPrint(bst.root);
-console.log(bst.levelOrder((node) => console.log(node.data ** 2)));
+// const bst = new Tree(a1);
+// prettyPrint(bst.root);
+// console.log(bst.levelOrder((node) => console.log(node.data ** 2)));
